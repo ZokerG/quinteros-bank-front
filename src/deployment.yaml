@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quintero-bank-front
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quintero-bank-front
+  template:
+    metadata:
+      labels:
+        app: quintero-bank-front
+    spec:
+      containers:
+        - name: quintero-bank-front
+          image: quintero.azurecr.io/quintero-bank-front:latest  # Será actualizado por el pipeline
+          ports:
+            - containerPort: 80

@@ -1,0 +1,53 @@
+trigger:
+  - main
+
+pool:
+  name: 'Default'
+
+variables:
+  azureSubscription: 'Azure for Students(60e820d9-b0da-4934-af4c-e1da82d9d1ac)'
+  acrName: 'quintero.azurecr.io'
+  aksCluster: 'quinterobank'
+  resourceGroup: 'carlos-student'
+  imageName: 'angular-frontend'
+
+steps:
+  # Instalar dependencias y construir la aplicación Angular
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Instalar Node.js'
+
+  - script: |
+      npm install
+      npm run build --prod
+    displayName: 'Construir la aplicación Angular'
+
+  # Construir y subir la imagen Docker
+  - task: Docker@2
+    inputs:
+      containerRegistry: '$(acrName)'
+      repository: '$(containerRegistry)/$(imageName)'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+      tags: '$(Build.BuildId)'
+
+  # Reemplazar la versión de la imagen en deployment.yaml
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        (Get-Content ./deployment.yaml) -replace 'quintero.azurecr.io/angular-frontend:.*', 'quintero.azurecr.io/angular-frontend:$(Build.BuildId)' | Set-Content ./deployment.yaml
+        Write-Host "deployment.yaml actualizado:"
+        Get-Content ./deployment.yaml
+
+  # Desplegar en AKS
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: '$(azureSubscription)'
+      scriptType: 'ps'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az aks get-credentials --resource-group $(resourceGroup) --name $(aksCluster)
+        kubectl apply -f ./deployment.yaml
+        kubectl apply -f ./service.yaml
