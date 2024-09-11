@@ -14,10 +14,6 @@ variables:
   imageName: 'quintero-bank-front'
 
 steps:
-  - script: |
-      npm install
-      npm run build --prod
-    displayName: 'Construir la aplicación Angular'
 
   # Construir y subir la imagen Docker
   - task: Docker@2
