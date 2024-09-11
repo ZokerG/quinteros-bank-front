@@ -29,7 +29,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        (Get-Content ./deployment.yaml) -replace 'quintero-front.azurecr.io/angular-frontend:.*', 'quintero.azurecr.io/angular-frontend:$(Build.BuildId)' | Set-Content ./deployment.yaml
+        (Get-Content ./deployment.yaml) -replace 'quintero.azurecr.io/quintero-bank-front:.*', 'quintero.azurecr.io/quintero-bank-front:$(Build.BuildId)' | Set-Content ./deployment.yaml
         Write-Host "deployment.yaml actualizado:"
         Get-Content ./deployment.yaml
 
