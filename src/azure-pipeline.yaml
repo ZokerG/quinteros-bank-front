@@ -9,7 +9,7 @@ variables:
   acrName: 'quintero.azurecr.io'
   aksCluster: 'quinterobank'
   resourceGroup: 'carlos-student'
-  imageName: 'angular-frontend'
+  imageName: 'quintero-bank-front'
 
 steps:
   # Instalar dependencias y construir la aplicación Angular
