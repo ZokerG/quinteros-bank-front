@@ -6,7 +6,7 @@ pool:
 
 variables:
   azureSubscription: 'Azure for Students(60e820d9-b0da-4934-af4c-e1da82d9d1ac)'
-  acrName: 'quintero.azurecr.io'
+  acrName: 'quintero-front.azurecr.io'
   aksCluster: 'quinterobank'
   resourceGroup: 'carlos-student'
   imageName: 'quintero-bank-front'
