@@ -1,0 +1,19 @@
+.button-custom {
+    width: 100%;
+    background: linear-gradient(to right, #7e22ce, #ec4899);
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+}
+
+.button-custom:hover {
+    background: linear-gradient(to right, #6b21a8, #db2777);
+}
+
+.button-custom:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.5);
+}

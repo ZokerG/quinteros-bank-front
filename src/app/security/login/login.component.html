@@ -1,30 +1,56 @@
-<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-    <div class="flex flex-column align-items-center justify-content-center">              
-        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
-                <div class="text-center mb-5">
-                    <img src="assets/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3">
-                    <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
-                    <span class="text-600 font-medium">Sign in to continue</span>
-                </div>
-
-                <div>
-                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                    <input id="email1" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
-
-                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                    <p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
-
-                    <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                        <div class="flex align-items-center">
-                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
-                            <label for="rememberme1">Remember me</label>
-                        </div>
-                        <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
-                    </div>
-                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl"></button>
-                </div>
-            </div>
+<div class="h-screen flex justify-center items-center bg-gradient-to-b from-pink-500 to-purple-500">
+    <p-card class="w-full max-w-md rounded-lg shadow-2xl w-96 transform transition-all duration-500 ease-in-out hover:scale-105">
+      <div class="text-center mb-5">
+        <h2 class="text-3xl font-bold">Iniciar Sesión</h2>
+      </div>
+      <form [formGroup]="singInForm">
+        <!-- Usuario -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700" for="username">Usuario</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+              <i class="pi pi-user text-gray-400"></i>
+            </span>
+            <input
+              type="text"
+              id="username"
+              class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-gray-900"
+              placeholder="Ingresa tu usuario"
+              formControlName="username"
+            />
+          </div>
         </div>
-    </div>
-</div>
+  
+        <!-- Contraseña -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700" for="password">Contraseña</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+              <i class="pi pi-lock text-gray-400"></i>
+            </span>
+            <input
+              type="password"
+              id="password"
+              class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-gray-900"
+              placeholder="Ingresa tu contraseña"
+              formControlName="password"
+            />
+          </div>
+        </div>
+  
+        <!-- Botón de Iniciar Sesión -->
+        <div class="flex justify-center">
+            <p-button label="Iniciar Sesión" severity="secondary" [disabled]="singInForm.invalid" (onClick)="login()"/>
+        </div>
+  
+        <!-- Enlace de registro -->
+        <div class="mt-4 text-center">
+          <p class="text-sm text-gray-500">
+            ¿No tienes una cuenta? 
+            <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold" >Regístrate</a>
+          </p>
+        </div>
+      </form>
+    </p-card>
+  </div>
+  

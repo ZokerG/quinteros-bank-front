@@ -1,0 +1,85 @@
+<div class="h-screen flex justify-center items-center bg-gradient-to-b from-purple-500 to-blue-500 p-4">
+  <p-toast key="myKey" />
+  <p-card class="w-full max-w-4xl shadow-lg">
+    <div class="text-center mb-5">
+      <h2 class="text-3xl font-bold">Registro</h2>
+    </div>
+    <form [formGroup]="signUpForm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Nombre -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Nombre</label>
+          <input class="w-full" placeholder="Ingresa tu nombre" pInputText formControlName="name">
+        </div>
+
+        <!-- Apellido -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Apellido</label>
+          <input class="w-full" placeholder="Ingresa tu apellido" pInputText formControlName="lastName" >
+        </div>
+
+        <!-- Teléfono -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+          <input class="w-full" placeholder="Ingresa tu teléfono" pInputText formControlName="phone">
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" class="w-full" placeholder="Ingresa tu email" pInputText formControlName="email">
+        </div>
+
+        <!-- Tipo de Documento -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Tipo de Documento</label>
+          <p-dropdown placeholder="Seleccione..." class="w-full" [options]="documentType" optionLabel="name" optionValue="name" formControlName="documentType"></p-dropdown>
+        </div>
+
+        <!-- Número de Documento -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Número de Documento</label>
+          <p-inputNumber mode="decimal" inputId="withoutgrouping" placeholder="Ingresa tu número de documento"
+            [useGrouping]="false" formControlName="documentNumber" />
+        </div>
+
+        <!-- Provincia -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Provincia</label>
+          <input class="w-full" placeholder="Ingresa tu provincia" pInputText formControlName="province">
+        </div>
+
+        <!-- Ciudad -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Ciudad</label>
+          <input class="w-full" placeholder="Ingresa tu ciudad" pInputText formControlName="city">
+        </div>
+
+        <!-- Contraseña -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Contraseña</label>
+          <p-password class="w-full" placeholder="Ingresa tu contraseña" toggleMask="true" formControlName="password"></p-password>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+          <p-password class="w-full" placeholder="Confirma tu contraseña" toggleMask="true" formControlName="confirmPassword"></p-password>
+        </div>
+      </div>
+
+      <!-- Botón de Registro -->
+      <div class="flex justify-center pt-12">
+        <p-button label="Registrarse" severity="secondary" (onClick)="signUp()" />
+      </div>
+
+      <!-- Enlace para iniciar sesión -->
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-500">
+          ¿Ya tienes una cuenta?
+          <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold" (click)="singIn()">Inicia sesión</a>
+        </p>
+      </div>
+    </form>
+  </p-card>
+</div>

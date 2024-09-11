@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h3 class="text-sm font-semibold text-gray-500">Saldo Total Cuenta</h3>
-                <p class="text-3xl font-bold text-black">$152</p>
+                <p class="text-3xl font-bold text-black">${{dataCatds?.totalBalance}}</p>
                 <p class="text-sm text-green-500">24 nuevos desde la última visita</p>
             </div>
             <div class="bg-blue-100 p-2 rounded-full">
@@ -16,11 +16,11 @@
         <div class="flex justify-between items-center">
             <div>
                 <h3 class="text-sm font-semibold text-gray-500">Numero de Transferencias</h3>
-                <p class="text-3xl font-bold text-black">$152</p>
+                <p class="text-3xl font-bold text-black">{{dataCatds?.numberOfTransactions}}</p>
                 <p class="text-sm text-green-500">24 nuevos desde la última visita</p>
             </div>
             <div class="bg-blue-100 p-2 rounded-full">
-                <i class="pi pi-wallet text-xl text-blue-600"></i> <!-- Ícono de PrimeIcons -->
+                <i class="pi pi-sort-alt text-xl text-blue-600"></i> <!-- Ícono de PrimeIcons -->
             </div>
         </div>
     </p-card>
@@ -29,11 +29,11 @@
         <div class="flex justify-between items-center">
             <div>
                 <h3 class="text-sm font-semibold text-gray-500">Retiros</h3>
-                <p class="text-3xl font-bold text-black">$152</p>
+                <p class="text-3xl font-bold text-black">{{dataCatds?.withdrawal}}</p>
                 <p class="text-sm text-green-500">24 nuevos desde la última visita</p>
             </div>
             <div class="bg-blue-100 p-2 rounded-full">
-                <i class="pi pi-wallet text-xl text-blue-600"></i> <!-- Ícono de PrimeIcons -->
+                <i class="pi pi-sort-amount-down-alt text-xl text-blue-600"></i> <!-- Ícono de PrimeIcons -->
             </div>
         </div>
     </p-card>
@@ -42,11 +42,11 @@
         <div class="flex justify-between items-center">
             <div>
                 <h3 class="text-sm font-semibold text-gray-500">Consignaciones</h3>
-                <p class="text-3xl font-bold text-black">$152</p>
+                <p class="text-3xl font-bold text-black">{{dataCatds?.deposit}}</p>
                 <p class="text-sm text-green-500">24 nuevos desde la última visita</p>
             </div>
             <div class="bg-blue-100 p-2 rounded-full">
-                <i class="pi pi-wallet text-xl text-blue-600"></i> <!-- Ícono de PrimeIcons -->
+                <i class="pi pi-sort-amount-up-alt text-xl text-blue-600"></i> <!-- Ícono de PrimeIcons -->
             </div>
         </div>
     </p-card>
@@ -57,27 +57,47 @@
     <p class="text-sm pl-3 text-black-500">Siempres seras importante para nostros</p>
 </div>
 
-<div class="mt-6 flex justify-between items-center">
-    <div class="flex p-4 rounded-lg">
-        <p-card class="cursor-pointer text-center flex items-center justify-center mr-4 card-hover">
-            <div class="flex flex-col items-center">
-              <i class="pi pi-exchange text-blue-500 text-4xl mb-2"></i>
-              <span class="text-lg font-semibold">Transferir</span>
+
+<div class="mt-6 flex justify-between items-start">
+    <div class="flex p-4 space-y-4">
+        <p-card class="p-4 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-lg w-72">
+            <div class="flex justify-between items-center">
+                <i class="pi pi-user text-2xl"></i>
+                <i class="pi pi-credit-card text-2xl"></i>
+            </div>
+            <div class="mt-4">
+                <h2 class="text-xl font-bold">{{dataCatds?.clientFullName}}</h2>
+                <p class="text-sm">Número de Cuenta</p>
+                <p class="text-lg font-mono tracking-wider">{{dataCatds?.accountNumber}}</p>
+                <p class="text-sm mt-2">Tipo de Cuenta</p>
+                <p class="text-lg font-semibold">Cuenta Ahorros</p>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button pButton icon="pi pi-copy" class="p-button-rounded p-button-text p-button-white" (click)="copyAccountNumber()" ></button>
             </div>
         </p-card>
-          
-        <p-card class="cursor-pointer text-center flex items-center justify-center card-hover">
-            <div class="flex flex-col items-center">
-              <i class="pi pi-exchange text-blue-500 text-4xl mb-2"></i>
-              <span class="text-lg font-semibold">Reporte <br> </span>
-            </div>
-        </p-card>
+        <div class="flex flex-col space-y-4">
+            <p-card class="cursor-pointer text-center flex items-center justify-center card-hover" >
+                <div class="flex flex-col items-center" (click)="showDialog()">
+                    <i class="pi pi-exchange text-blue-500 text-4xl mb-2"></i>
+                    <span class="text-lg font-semibold">Transferir <br> Amigo </span>
+                </div>
+            </p-card>
+            <p-card class="cursor-pointer text-center flex items-center justify-center card-hover">
+                <div class="flex flex-col items-center">
+                    <i class="pi pi-exchange text-blue-500 text-4xl mb-2"></i>
+                    <span class="text-lg font-semibold">Reporte <br> Movimientos </span>
+                </div>
+            </p-card>
+        </div>
     </div>
-    <p-card class="flex-grow">
-        <ngx-charts-line-chart [results]="data" [legend]="true" [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="true" [autoScale]="true"
-        ></ngx-charts-line-chart>
+    <p-card class="flex-grow p-4">
+        <ngx-charts-line-chart *ngIf="data && data.length > 0" [results]="data" [legend]="true" [xAxis]="true"
+            [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel" [timeline]="true" [autoScale]="true"></ngx-charts-line-chart>
     </p-card>
 </div>
+
 
 <!-- Transacciones recientes -->
 <div class="mt-4">
@@ -93,11 +113,63 @@
             </ng-template>
             <ng-template pTemplate="body" let-transaction>
                 <tr>
-                    <td>{{ transaction.date }}</td>
-                    <td>{{ transaction.description }}</td>
-                    <td>{{ transaction.amount | currency }}</td>
+                    <td>{{ transaction?.creatAt }}</td>
+                    <td>{{ transaction?.description }}</td>
+                    <td>{{ transaction?.amount | currency }}</td>
                 </tr>
             </ng-template>
         </p-table>
     </p-card>
 </div>
+
+<p-dialog header="Transfiere Dinero" [modal]="true" [(visible)]="visible">
+    <p-card class="p-4 rounded-lg shadow-lg w-96">
+        <div class="text-center">
+          <h2 class="text-xl font-bold">Transferencia Bancaria</h2>
+          <p class="text-gray-500">Envía dinero a otra cuenta de forma segura.</p>
+        </div>
+      
+        <div class="mt-6">
+          <!-- Destinatario -->
+          <label class="block font-medium mb-2">Destinatario</label>
+          <input 
+            pInputText
+            placeholder="Ingrese el destinatario" 
+            class="w-full">
+        </div>
+      
+        <div class="mt-4">
+          <!-- Monto a transferir -->
+          <label class="block font-medium mb-2">Monto a transferir</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">$</span>
+            <input 
+              pInputText 
+              type="number" 
+              class="w-full text-right" 
+              placeholder="0.00"
+              min="0.01">
+          </div>
+        </div>
+      
+        <div class="mt-4">
+          <!-- Concepto -->
+          <label class="block font-medium mb-2">Concepto</label>
+          <input 
+            pInputText 
+            placeholder="Ingrese el concepto de la transferencia" 
+            class="w-full">
+        </div>
+      
+        <div class="mt-6 text-center">
+          <button 
+            pButton 
+            label="Transferir" 
+            icon="pi pi-arrow-right" 
+            class="p-button-raised p-button-black w-full" 
+            >
+          </button>
+        </div>
+      </p-card>
+</p-dialog>
+  
