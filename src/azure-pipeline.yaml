@@ -1,4 +1,5 @@
 trigger:
+
   - main
 
 pool:
@@ -16,7 +17,7 @@ steps:
   # Instalar dependencias y construir la aplicación Angular
   - task: UseNode@1
     inputs:
-      version: '18.x'
+      version: '16.x'
     displayName: 'Install Node.js'
 
 
