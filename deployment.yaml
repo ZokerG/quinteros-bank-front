@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: quintero-bank-front
-          image: quintero.azurecr.io/quintero-bank-front:latest  # Será actualizado por el pipeline
+          image: quintero.azurecr.io/quintero-bank-front:latest
           ports:
             - containerPort: 80

@@ -1,29 +1,35 @@
-# Etapa 1: Construcción de la aplicación Angular
-FROM node:20 as build
+# Etapa de construcción
+FROM node:20 AS builder
 
-# Establece el directorio de trabajo
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia los archivos de configuración y dependencias de Angular
+# Copia solo los archivos de dependencias
 COPY package*.json ./
 
-# Instala las dependencias de Angular
+# Instala las dependencias del proyecto
 RUN npm install --legacy-peer-deps
 
-# Copia el código fuente de Angular
+# Instala globalmente Angular CLI
+RUN npm install -g @angular/cli@17
+
+# Copia el resto de los archivos del proyecto
 COPY . .
 
-# Compila la aplicación Angular para producción
-RUN npm run build --prod
+# Construye la aplicación en modo producción
+RUN ng build --configuration=production
 
-# Etapa 2: Servir con Nginx
-FROM nginx:alpine
+# Etapa de producción con Nginx
+FROM nginx:latest
 
-# Copia los archivos compilados de Angular al directorio de Nginx
-COPY --from=build /app/dist/quintero-bank-front /usr/share/nginx/html
+# Copia la configuración personalizada de Nginx
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exponer el puerto en el que correrá la aplicación (80 por defecto)
+# Copia los archivos construidos desde la etapa de construcción
+COPY --from=builder /app/dist/quintero-bank-front/browser /usr/share/nginx/html
+
+# Expone el puerto 80
 EXPOSE 80
 
-# Iniciar Nginx
+# Instrucción para ejecutar Nginx en primer plano
 CMD ["nginx", "-g", "daemon off;"]
